@@ -2,6 +2,8 @@ import shutil
 import os
 import exceptions as e
 import utils
+import json
+
 class FileOrganizer:
     def __init__(self, folder_path: str = "."):
         self.folder_path = folder_path
@@ -15,11 +17,29 @@ class FileOrganizer:
             return file_list
         except (FileNotFoundError, OSError):
             raise e.FolderNotFound()
-        
-    def check_type(self, file_list: list):
+    
+    def reverse_lookup(self, dictionary, value):
+        for key, val in dictionary.items():
+            if value in val: 
+                print(key)
+                return key
+            
+    def categorize_file(self, file_list: list) -> dict:
         #check file type
-        pass
+        categorized = {}
+        with open("file_types.json", "r") as f:
+            file_types = json.load(f)
+        
+        for file in file_list:
+            extension = os.path.splitext(file)[1].strip('.')
+            for category, extensions in file_types.items():
+                if extension in [ext.lower() for ext in extensions]:
+                    categorized[file] = category
+                    break
+        return categorized
     
     def organize(self):
         pass
-file = FileOrganizer().list_files()
+fo = FileOrganizer()
+files = fo.list_files()
+fo.categorize_file(files)
