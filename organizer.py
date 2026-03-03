@@ -5,7 +5,7 @@ import utils
 import json
 
 class FileOrganizer:
-    def __init__(self, folder_path: str = "./To Do"):
+    def __init__(self, folder_path: str = "To Do"):
         self.folder_path = folder_path
     
     def scan_directory(self) -> list:
@@ -15,7 +15,7 @@ class FileOrganizer:
             file_list = [file for file in list_directory if os.path.isfile(f"{self.folder_path}/{file}")]
             utils.create_folder(self.folder_path)
             return file_list
-        except (FileNotFoundError, OSError):
+        except (FileNotFoundError, OSError) as er:
             raise e.FolderNotFound()
             
     def categorize_file(self, file_list: list) -> dict:
@@ -39,17 +39,22 @@ class FileOrganizer:
         categorized = self.categorize_file(files)
         for file_name, category in categorized.items():
             if category == "images":
-                utils.move_file(file_name, f"Images/{file_name}")
+                dest_folder = "Images"
             elif category == "audio":
-                utils.move_file(file_name, f"Images/{file_name}")
+                dest_folder = "Audio"
             elif category == "videos":
-                utils.move_file(file_name, f"Videos/{file_name}")
+                dest_folder = "Videos"
             elif category == "documents":
-                utils.move_file(file_name, f"Documents/{file_name}")
+                dest_folder = "Documents."
             elif category == "code":
-                utils.move_file(file_name, f"Code/{file_name}")
+                dest_folder = "Code"
             else:
-                utils.move_file(file_name, f"Others/{file_name}")
+                dest_folder = "Others"
+                
+            dest_path = os.path.join(self.folder_path, dest_folder,file_name)
+            source_path = os.path.join(self.folder_path, file_name)
+            print(dest_path)
+            utils.move_file(source_path, dest_path)
                 
 fo = FileOrganizer()
-fo.scan_directory()
+fo.organize()
