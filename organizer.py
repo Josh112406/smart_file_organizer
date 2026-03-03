@@ -5,24 +5,18 @@ import utils
 import json
 
 class FileOrganizer:
-    def __init__(self, folder_path: str = "."):
+    def __init__(self, folder_path: str = "./To Do"):
         self.folder_path = folder_path
-
-    def list_files(self) -> list:
+    
+    def scan_directory(self) -> list:
         #list all files from the given folder_path
         try:
             list_directory = os.listdir(self.folder_path)
-            file_list = [file for file in list_directory if os.path.isfile(file)]
+            file_list = [file for file in list_directory if os.path.isfile(f"{self.folder_path}/{file}")]
             utils.create_folder(self.folder_path)
             return file_list
         except (FileNotFoundError, OSError):
             raise e.FolderNotFound()
-    
-    def reverse_lookup(self, dictionary, value):
-        for key, val in dictionary.items():
-            if value in val: 
-                print(key)
-                return key
             
     def categorize_file(self, file_list: list) -> dict:
         #check file type
@@ -36,10 +30,26 @@ class FileOrganizer:
                 if extension in [ext.lower() for ext in extensions]:
                     categorized[file] = category
                     break
+                else:
+                    categorized[file] = "others"
         return categorized
     
     def organize(self):
-        pass
+        files = self.scan_directory()
+        categorized = self.categorize_file(files)
+        for file_name, category in categorized.items():
+            if category == "images":
+                utils.move_file(file_name, f"Images/{file_name}")
+            elif category == "audio":
+                utils.move_file(file_name, f"Images/{file_name}")
+            elif category == "videos":
+                utils.move_file(file_name, f"Videos/{file_name}")
+            elif category == "documents":
+                utils.move_file(file_name, f"Documents/{file_name}")
+            elif category == "code":
+                utils.move_file(file_name, f"Code/{file_name}")
+            else:
+                utils.move_file(file_name, f"Others/{file_name}")
+                
 fo = FileOrganizer()
-files = fo.list_files()
-fo.categorize_file(files)
+fo.scan_directory()
