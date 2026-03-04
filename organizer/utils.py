@@ -1,6 +1,5 @@
 import os
 import shutil
-import hashlib
 
 def create_folder(folder_path) -> None:
     folder_names = ["Images", "Videos", "Audios", "Documents", "Code", "Others", "Duplicates"]

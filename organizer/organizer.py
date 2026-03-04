@@ -7,6 +7,9 @@ class FileOrganizer:
     def __init__(self, folder_path: str, duplicate_handler):
         self.folder_path = folder_path
         self.duplicate_handler = duplicate_handler
+        self.files_processed = 0
+        self.files_moved = 0
+        self.duplicates_found = 0
         
     def scan_directory(self) -> list:
         #list all files from the given folder_path
@@ -47,6 +50,7 @@ class FileOrganizer:
         
         for file_name, category in categorized.items():
             file_path = os.path.join(self.folder_path, file_name)
+            self.files_processed += 1
             # duplicate check
             if self.duplicate_handler.is_duplicate(file_path):
                 dest_folder = "Duplicates"
@@ -68,8 +72,19 @@ class FileOrganizer:
             source_path = os.path.join(self.folder_path, file_name)
             utils.move_file(source_path, dest_path)
             
-    def main():
-        folder_path = input("Enter folder path: ")
-        duplicate_handler = DuplicateHandler()
-        organizer = FileOrganizer(folder_path, duplicate_handler)
-        organizer.organize()        
+            self.files_moved += 1
+
+        
+        def print_summary(self):
+            print("\nOrganization Summary")
+            print("--------------------")
+            print(f"Files processed : {self.files_processed}")
+            print(f"Files moved     : {self.files_moved}")
+            print(f"Duplicates      : {self.duplicate_handler.duplicate_count}")
+            
+def main():
+    folder_path = input("Enter folder path: ")
+    duplicate_handler = DuplicateHandler()
+    organizer = FileOrganizer(folder_path, duplicate_handler)
+    organizer.organize()       
+main()
