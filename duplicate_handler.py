@@ -13,6 +13,7 @@ class DuplicateHandler:
         return digest.hexdigest()
     
     def is_duplicate(self, file_path):
+        file_path = os.path.abspath(file_path)
         file_hash = self.generate_hash(file_path)
         
         if file_hash in self.hash_store:
