@@ -2,7 +2,7 @@ import os
 from . import utils
 import json
 from .duplicate_handler import DuplicateHandler
-from exceptions import FolderNotFound
+from .exceptions import FolderNotFound
 
 ORGANIZER_FOLDERS = {
     "Images",
