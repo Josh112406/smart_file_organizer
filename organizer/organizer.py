@@ -1,8 +1,7 @@
 import os
-import exceptions
-import utils
+from . import exceptions, utils
 import json
-from duplicate_handler import DuplicateHandler
+from .duplicate_handler import DuplicateHandler
 
 class FileOrganizer:
     def __init__(self, folder_path: str, duplicate_handler: DuplicateHandler):
