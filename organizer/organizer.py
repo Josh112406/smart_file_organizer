@@ -3,6 +3,8 @@ from . import exceptions, utils
 import json
 from .duplicate_handler import DuplicateHandler
 
+ORGANIZER_FOLDERS = {"Images", "Videos", "Audios", "Documents", "Code", "Others", "Duplicates"}
+
 class FileOrganizer:
     def __init__(self, folder_path: str, duplicate_handler):
         self.folder_path = folder_path
@@ -12,14 +14,11 @@ class FileOrganizer:
         self.duplicates_found = 0
         
     def scan_directory(self) -> list:
-        try:
-            list_directory = os.listdir(self.folder_path)
-            file_list = [file for file in list_directory if os.path.isfile(os.path.join(self.folder_path, file))]
-            utils.create_folder(self.folder_path)
-            return file_list
-        
-        except (FileNotFoundError, OSError):
-            raise exceptions.FolderNotFound()
+        utils.create_folder(self.folder_path)
+        list_directory = os.listdir(self.folder_path)
+        file_list = [file for file in list_directory if os.path.isfile(os.path.join(self.folder_path, file)) and file not in ORGANIZER_FOLDERS]
+        return file_list
+
             
     def categorize_file(self, file_list: list) -> dict:
         if not file_list:
