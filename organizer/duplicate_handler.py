@@ -6,12 +6,12 @@ class DuplicateHandler:
         self.hash_store = {}
         self.duplicate_count = 0
         
-    def generate_hash(self, file, algorithm: str = 'sha256') -> str:
-        with open(file, 'rb') as f:
+    def generate_hash(self, file_path: str, algorithm: str = 'sha256') -> str:
+        with open(file_path, 'rb') as f:
             digest = hashlib.file_digest(f, algorithm)
         return digest.hexdigest()
     
-    def is_duplicate(self, file_path):
+    def is_duplicate(self, file_path: str) -> bool:
         file_path = os.path.abspath(file_path)
         file_hash = self.generate_hash(file_path)
         

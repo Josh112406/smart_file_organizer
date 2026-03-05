@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def create_folder(folder_path) -> None:
+def create_folder(folder_path: str) -> None:
     folder_names = ["Images", "Videos", "Audios", "Documents", "Code", "Others", "Duplicates"]
     for folder in folder_names:
         path = os.path.join(folder_path, folder)
@@ -25,8 +25,6 @@ def get_safe_destination(dest_path: str) -> str:
 
         counter += 1
         
-def move_file(file_source: str, file_dest: str):
+def move_file(file_source: str, file_dest: str) -> None:
     safe_dest = get_safe_destination(file_dest)
     shutil.move(file_source, safe_dest)
-    
-    
