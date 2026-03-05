@@ -9,7 +9,7 @@ def main():
     
     parser.add_argument("path", help="Path to the folder you want to organize.")
     args = parser.parse_args()
-    duplicate_handler = DuplicateHandler
+    duplicate_handler = DuplicateHandler()
     organizer = FileOrganizer(args.path, duplicate_handler)
     
     organizer.organize()

@@ -4,7 +4,7 @@ import json
 from .duplicate_handler import DuplicateHandler
 
 class FileOrganizer:
-    def __init__(self, folder_path: str, duplicate_handler: DuplicateHandler):
+    def __init__(self, folder_path: str, duplicate_handler):
         self.folder_path = folder_path
         self.duplicate_handler = duplicate_handler
         self.files_processed = 0
@@ -25,9 +25,10 @@ class FileOrganizer:
         if not file_list:
             print("No file found.")
             return
-        
+        base_dir = os.path.dirname(__file__)
+        file_path = os.path.join(base_dir, "file_types.json")
         categorized = {}
-        with open("file_types.json", "r") as file:
+        with open(file_path, "r") as file:
             file_types = json.load(file)
         
         for file in file_list:
