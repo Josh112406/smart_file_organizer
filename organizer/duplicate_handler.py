@@ -1,7 +1,6 @@
 import os
 import hashlib
 
-
 class DuplicateHandler:
     def __init__(self):
         self.hash_store = {}
